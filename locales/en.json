@@ -1,0 +1,68 @@
+{
+  "nav": {
+    "home": "Home",
+    "teams": "Teams",
+    "matches": "Matches",
+    "statistics": "Statistics",
+    "admin": "Admin Panel"
+  },
+  "hero": {
+    "title": "Ultimate Football Information Hub",
+    "subtitle": "Real-time team stats, player profiles, match analysis, and comprehensive football data at your fingertips",
+    "explore": "Explore Teams",
+    "live": "Live Matches"
+  },
+  "stats": {
+    "teams": "Teams",
+    "players": "Players",
+    "matches": "Matches"
+  },
+  "sections": {
+    "featured": "Featured Teams",
+    "topScorers": "Top Scorers",
+    "recentMatches": "Recent Matches",
+    "allTeams": "All Teams"
+  },
+  "team": {
+    "founded": "Founded",
+    "stadium": "Stadium",
+    "city": "City",
+    "coach": "Coach",
+    "players": "Players",
+    "squad": "Squad Roster",
+    "matches": "Matches"
+  },
+  "player": {
+    "goals": "Goals",
+    "assists": "Assists",
+    "appearances": "Appearances",
+    "position": "Position",
+    "nationality": "Nationality",
+    "age": "Age"
+  },
+  "search": {
+    "placeholder": "Search teams by name, city, or stadium...",
+    "noResults": "No teams found"
+  },
+  "admin": {
+    "login": "Admin Login",
+    "dashboard": "Dashboard",
+    "manageTeams": "Manage Teams",
+    "managePlayers": "Manage Players",
+    "manageMatches": "Manage Matches",
+    "addTeam": "Add Team",
+    "editTeam": "Edit Team",
+    "deleteTeam": "Delete Team",
+    "addPlayer": "Add Player",
+    "editPlayer": "Edit Player",
+    "deletePlayer": "Delete Player",
+    "username": "Username",
+    "password": "Password",
+    "loginBtn": "Login",
+    "logout": "Logout",
+    "totalTeams": "Total Teams",
+    "totalPlayers": "Total Players",
+    "totalMatches": "Total Matches",
+    "recentActivity": "Recent Activity"
+  }
+}

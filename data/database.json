@@ -1,0 +1,197 @@
+{
+  "teams": [
+    {
+      "id": 1,
+      "name": "Manchester United",
+      "city": "Manchester",
+      "stadium": "Old Trafford",
+      "founded": 1878,
+      "coach": "Erik ten Hag",
+      "league": "premier-league",
+      "colors": "Red, White, Black"
+    },
+    {
+      "id": 2,
+      "name": "Real Madrid",
+      "city": "Madrid",
+      "stadium": "Santiago Bernabéu",
+      "founded": 1902,
+      "coach": "Carlo Ancelotti",
+      "league": "la-liga",
+      "colors": "White, Gold"
+    },
+    {
+      "id": 3,
+      "name": "Bayern Munich",
+      "city": "Munich",
+      "stadium": "Allianz Arena",
+      "founded": 1900,
+      "coach": "Thomas Tuchel",
+      "league": "bundesliga",
+      "colors": "Red, White, Blue"
+    },
+    {
+      "id": 4,
+      "name": "Liverpool",
+      "city": "Liverpool",
+      "stadium": "Anfield",
+      "founded": 1892,
+      "coach": "Jürgen Klopp",
+      "league": "premier-league",
+      "colors": "Red"
+    },
+    {
+      "id": 5,
+      "name": "Barcelona",
+      "city": "Barcelona",
+      "stadium": "Camp Nou",
+      "founded": 1899,
+      "coach": "Xavi Hernandez",
+      "league": "la-liga",
+      "colors": "Blue, Red"
+    },
+    {
+      "id": 6,
+      "name": "Paris Saint-Germain",
+      "city": "Paris",
+      "stadium": "Parc des Princes",
+      "founded": 1970,
+      "coach": "Luis Enrique",
+      "league": "ligue-1",
+      "colors": "Blue, Red, White"
+    }
+  ],
+  "players": [
+    {
+      "id": 1,
+      "team_id": 1,
+      "name": "Bruno Fernandes",
+      "number": 8,
+      "position": "MF",
+      "nationality": "Portugal",
+      "age": 29,
+      "goals": 15,
+      "assists": 12,
+      "appearances": 35
+    },
+    {
+      "id": 2,
+      "team_id": 1,
+      "name": "Marcus Rashford",
+      "number": 10,
+      "position": "FW",
+      "nationality": "England",
+      "age": 26,
+      "goals": 30,
+      "assists": 10,
+      "appearances": 38
+    },
+    {
+      "id": 3,
+      "team_id": 2,
+      "name": "Jude Bellingham",
+      "number": 5,
+      "position": "MF",
+      "nationality": "England",
+      "age": 20,
+      "goals": 20,
+      "assists": 8,
+      "appearances": 32
+    },
+    {
+      "id": 4,
+      "team_id": 2,
+      "name": "Vinicius Jr",
+      "number": 7,
+      "position": "FW",
+      "nationality": "Brazil",
+      "age": 23,
+      "goals": 25,
+      "assists": 15,
+      "appearances": 36
+    },
+    {
+      "id": 5,
+      "team_id": 3,
+      "name": "Harry Kane",
+      "number": 9,
+      "position": "FW",
+      "nationality": "England",
+      "age": 30,
+      "goals": 35,
+      "assists": 10,
+      "appearances": 40
+    },
+    {
+      "id": 6,
+      "team_id": 3,
+      "name": "Jamal Musiala",
+      "number": 42,
+      "position": "MF",
+      "nationality": "Germany",
+      "age": 20,
+      "goals": 12,
+      "assists": 8,
+      "appearances": 34
+    },
+    {
+      "id": 7,
+      "team_id": 4,
+      "name": "Mohamed Salah",
+      "number": 11,
+      "position": "FW",
+      "nationality": "Egypt",
+      "age": 31,
+      "goals": 28,
+      "assists": 14,
+      "appearances": 37
+    },
+    {
+      "id": 8,
+      "team_id": 5,
+      "name": "Robert Lewandowski",
+      "number": 9,
+      "position": "FW",
+      "nationality": "Poland",
+      "age": 35,
+      "goals": 22,
+      "assists": 7,
+      "appearances": 33
+    }
+  ],
+  "matches": [
+    {
+      "id": 1,
+      "home_team_id": 1,
+      "away_team_id": 4,
+      "home_score": 2,
+      "away_score": 2,
+      "date": "2024-03-10T15:00:00Z",
+      "competition": "Premier League",
+      "stadium": "Old Trafford",
+      "attendance": 73200
+    },
+    {
+      "id": 2,
+      "home_team_id": 2,
+      "away_team_id": 5,
+      "home_score": 3,
+      "away_score": 1,
+      "date": "2024-03-12T20:00:00Z",
+      "competition": "La Liga",
+      "stadium": "Santiago Bernabéu",
+      "attendance": 81000
+    },
+    {
+      "id": 3,
+      "home_team_id": 3,
+      "away_team_id": 6,
+      "home_score": 2,
+      "away_score": 0,
+      "date": "2024-03-15T17:30:00Z",
+      "competition": "Champions League",
+      "stadium": "Allianz Arena",
+      "attendance": 75000
+    }
+  ]
+}

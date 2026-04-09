@@ -4,225 +4,1067 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - FootballHub</title>
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/admin.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f172a;
+            color: #f1f5f9;
+        }
+
+        /* Navigation */
+        .admin-nav {
+            background: #1e293b;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #334155;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .logo i {
+            color: #dc2626;
+            margin-right: 0.5rem;
+        }
+
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #dc2626, #991b1b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logout-btn {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: #991b1b;
+            transform: translateY(-2px);
+        }
+
+        /* Admin Container */
+        .admin-container {
+            display: flex;
+            margin-top: 70px;
+            min-height: calc(100vh - 70px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: #1e293b;
+            border-right: 1px solid #334155;
+            padding: 2rem 0;
+            position: fixed;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            color: #94a3b8;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .menu-item i {
+            width: 20px;
+        }
+
+        .menu-item:hover,
+        .menu-item.active {
+            background: rgba(220, 38, 38, 0.1);
+            color: #dc2626;
+            border-left: 3px solid #dc2626;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 2rem;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: #1e293b;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid #334155;
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: #dc2626;
+        }
+
+        .stat-info h3 {
+            font-size: 2rem;
+            color: #dc2626;
+        }
+
+        .stat-info p {
+            color: #94a3b8;
+            margin-top: 0.5rem;
+        }
+
+        .stat-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(220, 38, 38, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-icon i {
+            font-size: 2rem;
+            color: #dc2626;
+        }
+
+        /* Charts */
+        .chart-container {
+            background: #1e293b;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid #334155;
+        }
+
+        /* Tables */
+        .data-table {
+            width: 100%;
+            background: #1e293b;
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid #334155;
+        }
+
+        .data-table th,
+        .data-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #334155;
+        }
+
+        .data-table th {
+            background: #0f172a;
+            color: #dc2626;
+            font-weight: 600;
+        }
+
+        .data-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* Buttons */
+        .btn-add {
+            background: #dc2626;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-add:hover {
+            background: #991b1b;
+            transform: translateY(-2px);
+        }
+
+        .btn-edit {
+            background: #3b82f6;
+            color: white;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.3rem;
+            cursor: pointer;
+            margin-right: 0.5rem;
+        }
+
+        .btn-delete {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 0.4rem 0.8rem;
+            border-radius: 0.3rem;
+            cursor: pointer;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: #1e293b;
+            border-radius: 1rem;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #94a3b8;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 0.5rem;
+            color: #f1f5f9;
+        }
+
+        .form-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+            margin-top: 1.5rem;
+        }
+
+        .btn-save {
+            background: #10b981;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+
+        .btn-cancel {
+            background: #64748b;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+
+        .close {
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #94a3b8;
+        }
+
+        .close:hover {
+            color: #dc2626;
+        }
+
+        /* Activity Log */
+        .activity-log {
+            background: #1e293b;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            border: 1px solid #334155;
+        }
+
+        .activity-item {
+            padding: 1rem;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(220, 38, 38, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .activity-details {
+            flex: 1;
+        }
+
+        .activity-action {
+            font-weight: 600;
+        }
+
+        .activity-time {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+                z-index: 99;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Sections */
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+    </style>
 </head>
 <body>
-    <nav class="navbar admin-nav">
-        <div class="nav-container">
-            <div class="logo">
-                <i class="fas fa-futbol"></i>
-                <span>FootballHub Admin</span>
+    <nav class="admin-nav">
+        <div class="logo">
+            <i class="fas fa-futbol"></i>
+            FootballHub Admin
+        </div>
+        <div class="user-menu">
+            <div class="user-info" id="userInfo">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <span id="userName">Administrator</span>
             </div>
-            <div class="nav-links">
-                <a href="index.html">View Site</a>
-                <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
-            </div>
+            <button class="logout-btn" id="logoutBtn">
+                <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
         </div>
     </nav>
-    
+
     <div class="admin-container">
-        <aside class="admin-sidebar">
-            <div class="admin-profile">
-                <i class="fas fa-user-circle"></i>
-                <h4>Administrator</h4>
-                <p>Super Admin</p>
+        <aside class="sidebar" id="sidebar">
+            <div class="menu-item active" data-section="dashboard">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
             </div>
-            
-            <nav class="admin-menu">
-                <a href="#" class="menu-item active" data-section="dashboard">
-                    <i class="fas fa-tachometer-alt"></i>
-                    <span data-i18n="admin.dashboard">Dashboard</span>
-                </a>
-                <a href="#" class="menu-item" data-section="teams">
-                    <i class="fas fa-users"></i>
-                    <span data-i18n="admin.manageTeams">Manage Teams</span>
-                </a>
-                <a href="#" class="menu-item" data-section="players">
-                    <i class="fas fa-user-friends"></i>
-                    <span data-i18n="admin.managePlayers">Manage Players</span>
-                </a>
-                <a href="#" class="menu-item" data-section="matches">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span data-i18n="admin.manageMatches">Manage Matches</span>
-                </a>
-            </nav>
+            <div class="menu-item" data-section="teams">
+                <i class="fas fa-users"></i>
+                <span>Manage Teams</span>
+            </div>
+            <div class="menu-item" data-section="players">
+                <i class="fas fa-user-friends"></i>
+                <span>Manage Players</span>
+            </div>
+            <div class="menu-item" data-section="matches">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Manage Matches</span>
+            </div>
+            <div class="menu-item" data-section="users">
+                <i class="fas fa-user-shield"></i>
+                <span>Admin Users</span>
+            </div>
+            <div class="menu-item" data-section="activity">
+                <i class="fas fa-history"></i>
+                <span>Activity Log</span>
+            </div>
+            <div class="menu-item" data-section="settings">
+                <i class="fas fa-cog"></i>
+                <span>Settings</span>
+            </div>
         </aside>
-        
-        <main class="admin-content">
+
+        <main class="main-content">
             <!-- Dashboard Section -->
-            <div id="dashboardSection" class="admin-section active">
-                <div class="section-header">
-                    <h1 data-i18n="admin.dashboard">Dashboard</h1>
-                </div>
-                
-                <div class="stats-grid" id="adminStats">
+            <div id="dashboardSection" class="section active">
+                <h1 style="margin-bottom: 2rem;">Dashboard</h1>
+                <div class="stats-grid" id="statsGrid">
                     <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-users"></i></div>
                         <div class="stat-info">
                             <h3 id="totalTeams">0</h3>
-                            <p data-i18n="admin.totalTeams">Total Teams</p>
+                            <p>Total Teams</p>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-users"></i>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-user-friends"></i></div>
                         <div class="stat-info">
                             <h3 id="totalPlayers">0</h3>
-                            <p data-i18n="admin.totalPlayers">Total Players</p>
+                            <p>Total Players</p>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-user-friends"></i>
                         </div>
                     </div>
                     <div class="stat-card">
-                        <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
                         <div class="stat-info">
                             <h3 id="totalMatches">0</h3>
-                            <p data-i18n="admin.totalMatches">Total Matches</p>
+                            <p>Total Matches</p>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-calendar-alt"></i>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3 id="totalAdmins">0</h3>
+                            <p>Admin Users</p>
+                        </div>
+                        <div class="stat-icon">
+                            <i class="fas fa-user-shield"></i>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="chart-container">
                     <canvas id="activityChart"></canvas>
                 </div>
-                
-                <div class="recent-activity">
-                    <h3 data-i18n="admin.recentActivity">Recent Activity</h3>
-                    <div id="activityLog"></div>
+
+                <div class="activity-log">
+                    <h3 style="margin-bottom: 1rem;">Recent Activity</h3>
+                    <div id="recentActivityList"></div>
                 </div>
             </div>
-            
-            <!-- Teams Management Section -->
-            <div id="teamsSection" class="admin-section">
-                <div class="section-header">
-                    <h1 data-i18n="admin.manageTeams">Manage Teams</h1>
+
+            <!-- Teams Section -->
+            <div id="teamsSection" class="section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h1>Manage Teams</h1>
                     <button class="btn-add" onclick="openTeamModal()">
-                        <i class="fas fa-plus"></i> <span data-i18n="admin.addTeam">Add Team</span>
+                        <i class="fas fa-plus"></i> Add Team
                     </button>
                 </div>
-                
-                <div class="data-table-container">
-                    <table class="data-table" id="teamsTable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>City</th>
-                                <th>Stadium</th>
-                                <th>Founded</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="teamsTableBody"></tbody>
-                    </table>
-                </div>
+                <table class="data-table" id="teamsTable">
+                    <thead>
+                        <tr><th>ID</th><th>Name</th><th>City</th><th>Stadium</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody id="teamsTableBody"></tbody>
+                </table>
             </div>
-            
-            <!-- Players Management Section -->
-            <div id="playersSection" class="admin-section">
-                <div class="section-header">
-                    <h1 data-i18n="admin.managePlayers">Manage Players</h1>
+
+            <!-- Players Section -->
+            <div id="playersSection" class="section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h1>Manage Players</h1>
                     <button class="btn-add" onclick="openPlayerModal()">
-                        <i class="fas fa-plus"></i> <span data-i18n="admin.addPlayer">Add Player</span>
+                        <i class="fas fa-plus"></i> Add Player
                     </button>
                 </div>
-                
-                <div class="data-table-container">
-                    <table class="data-table" id="playersTable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Name</th>
-                                <th>Team</th>
-                                <th>Position</th>
-                                <th>Goals</th>
-                                <th>Assists</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="playersTableBody"></tbody>
-                    </table>
-                </div>
+                <table class="data-table" id="playersTable">
+                    <thead>
+                        <tr><th>ID</th><th>Name</th><th>Team</th><th>Position</th><th>Goals</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody id="playersTableBody"></tbody>
+                </table>
             </div>
-            
-            <!-- Matches Management Section -->
-            <div id="matchesSection" class="admin-section">
-                <div class="section-header">
-                    <h1 data-i18n="admin.manageMatches">Manage Matches</h1>
+
+            <!-- Matches Section -->
+            <div id="matchesSection" class="section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h1>Manage Matches</h1>
                     <button class="btn-add" onclick="openMatchModal()">
-                        <i class="fas fa-plus"></i> <span data-i18n="admin.addMatch">Add Match</span>
+                        <i class="fas fa-plus"></i> Add Match
                     </button>
                 </div>
-                
-                <div class="data-table-container">
-                    <table class="data-table" id="matchesTable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Home Team</th>
-                                <th>Away Team</th>
-                                <th>Score</th>
-                                <th>Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="matchesTableBody"></tbody>
-                    </table>
+                <table class="data-table" id="matchesTable">
+                    <thead>
+                        <tr><th>ID</th><th>Home Team</th><th>Away Team</th><th>Score</th><th>Date</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody id="matchesTableBody"></tbody>
+                </table>
+            </div>
+
+            <!-- Users Section -->
+            <div id="usersSection" class="section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                    <h1>Admin Users</h1>
+                    <button class="btn-add" onclick="openUserModal()">
+                        <i class="fas fa-plus"></i> Add User
+                    </button>
                 </div>
+                <table class="data-table" id="usersTable">
+                    <thead>
+                        <tr><th>Username</th><th>Role</th><th>Name</th><th>Email</th><th>Actions</th></tr>
+                    </thead>
+                    <tbody id="usersTableBody"></tbody>
+                </table>
+            </div>
+
+            <!-- Activity Section -->
+            <div id="activitySection" class="section">
+                <h1 style="margin-bottom: 2rem;">Activity Log</h1>
+                <div class="activity-log" id="fullActivityLog"></div>
+            </div>
+
+            <!-- Settings Section -->
+            <div id="settingsSection" class="section">
+                <h1 style="margin-bottom: 2rem;">Settings</h1>
+                <div class="stat-card" style="margin-bottom: 1rem;">
+                    <div class="stat-info">
+                        <h3>Site Settings</h3>
+                        <p>Configure your website settings</p>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Site Title</label>
+                    <input type="text" id="siteTitle" value="FootballHub">
+                </div>
+                <div class="form-group">
+                    <label>Site Description</label>
+                    <input type="text" id="siteDescription" value="Ultimate Football Information Hub">
+                </div>
+                <button class="btn-save" onclick="saveSettings()">Save Settings</button>
             </div>
         </main>
     </div>
-    
+
     <!-- Team Modal -->
     <div id="teamModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
                 <h2 id="teamModalTitle">Add Team</h2>
-                <span class="close">&times;</span>
+                <span class="close" onclick="closeTeamModal()">&times;</span>
             </div>
-            <form id="teamForm">
-                <input type="hidden" id="teamId">
-                <div class="form-group">
-                    <label>Team Name</label>
-                    <input type="text" id="teamName" required>
-                </div>
-                <div class="form-group">
-                    <label>City</label>
-                    <input type="text" id="teamCity" required>
-                </div>
-                <div class="form-group">
-                    <label>Stadium</label>
-                    <input type="text" id="teamStadium" required>
-                </div>
-                <div class="form-group">
-                    <label>Founded Year</label>
-                    <input type="number" id="teamFounded">
-                </div>
-                <div class="form-group">
-                    <label>Coach</label>
-                    <input type="text" id="teamCoach">
-                </div>
-                <div class="form-group">
-                    <label>League</label>
-                    <select id="teamLeague">
-                        <option value="premier-league">Premier League</option>
-                        <option value="la-liga">La Liga</option>
-                        <option value="bundesliga">Bundesliga</option>
-                        <option value="serie-a">Serie A</option>
-                        <option value="ligue-1">Ligue 1</option>
-                    </select>
-                </div>
-                <div class="form-actions">
-                    <button type="submit" class="btn-save">Save</button>
-                    <button type="button" class="btn-cancel" onclick="closeTeamModal()">Cancel</button>
-                </div>
-            </form>
+            <div class="modal-body">
+                <form id="teamForm">
+                    <input type="hidden" id="teamId">
+                    <div class="form-group">
+                        <label>Team Name</label>
+                        <input type="text" id="teamName" required>
+                    </div>
+                    <div class="form-group">
+                        <label>City</label>
+                        <input type="text" id="teamCity" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Stadium</label>
+                        <input type="text" id="teamStadium" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Founded Year</label>
+                        <input type="number" id="teamFounded">
+                    </div>
+                    <div class="form-group">
+                        <label>Coach</label>
+                        <input type="text" id="teamCoach">
+                    </div>
+                    <div class="form-group">
+                        <label>League</label>
+                        <select id="teamLeague">
+                            <option value="premier-league">Premier League</option>
+                            <option value="la-liga">La Liga</option>
+                            <option value="bundesliga">Bundesliga</option>
+                            <option value="serie-a">Serie A</option>
+                            <option value="ligue-1">Ligue 1</option>
+                        </select>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn-save">Save</button>
+                        <button type="button" class="btn-cancel" onclick="closeTeamModal()">Cancel</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-    
-    <script src="js/i18n.js"></script>
-    <script src="js/api.js"></script>
-    <script src="js/admin.js"></script>
+
+    <script>
+        // ============================================
+        // COMPLETE ADMIN PANEL JAVASCRIPT
+        // ============================================
+        
+        // Check authentication
+        function checkAuth() {
+            const token = localStorage.getItem('adminToken');
+            const user = localStorage.getItem('adminUser');
+            
+            if (!token || !user) {
+                window.location.href = 'admin-login.html';
+                return false;
+            }
+            return true;
+        }
+
+        if (!checkAuth()) {
+            // Redirect will happen
+        }
+
+        // Get current user
+        const currentUser = JSON.parse(localStorage.getItem('adminUser') || '{}');
+        
+        // Update user info
+        if (currentUser.name) {
+            document.getElementById('userName').textContent = currentUser.name;
+        }
+
+        // Sample data store
+        let teamsData = [
+            { id: 1, name: "Manchester United", city: "Manchester", stadium: "Old Trafford", founded: 1878, coach: "Erik ten Hag", league: "premier-league" },
+            { id: 2, name: "Real Madrid", city: "Madrid", stadium: "Santiago Bernabéu", founded: 1902, coach: "Carlo Ancelotti", league: "la-liga" },
+            { id: 3, name: "Bayern Munich", city: "Munich", stadium: "Allianz Arena", founded: 1900, coach: "Thomas Tuchel", league: "bundesliga" }
+        ];
+
+        let playersData = [
+            { id: 1, team_id: 1, name: "Bruno Fernandes", position: "MF", goals: 15, assists: 12 },
+            { id: 2, team_id: 1, name: "Marcus Rashford", position: "FW", goals: 30, assists: 10 },
+            { id: 3, team_id: 2, name: "Jude Bellingham", position: "MF", goals: 20, assists: 8 }
+        ];
+
+        let matchesData = [
+            { id: 1, home_team_id: 1, away_team_id: 2, home_score: 2, away_score: 2, date: "2024-03-10", competition: "Champions League" }
+        ];
+
+        let adminUsers = [
+            { username: "admin", password: "admin123", role: "super_admin", name: "Administrator", email: "admin@footballhub.com" },
+            { username: "editor", password: "editor123", role: "editor", name: "Content Editor", email: "editor@footballhub.com" }
+        ];
+
+        // Load dashboard stats
+        function loadDashboardStats() {
+            document.getElementById('totalTeams').textContent = teamsData.length;
+            document.getElementById('totalPlayers').textContent = playersData.length;
+            document.getElementById('totalMatches').textContent = matchesData.length;
+            document.getElementById('totalAdmins').textContent = adminUsers.length;
+            
+            createActivityChart();
+            loadRecentActivity();
+        }
+
+        // Create chart
+        function createActivityChart() {
+            const ctx = document.getElementById('activityChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                    datasets: [{
+                        label: 'Activities',
+                        data: [12, 19, 15, 27],
+                        borderColor: '#dc2626',
+                        backgroundColor: 'rgba(220, 38, 38, 0.1)',
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: { labels: { color: '#f1f5f9' } }
+                    },
+                    scales: {
+                        y: { ticks: { color: '#94a3b8' }, grid: { color: '#334155' } },
+                        x: { ticks: { color: '#94a3b8' }, grid: { color: '#334155' } }
+                    }
+                }
+            });
+        }
+
+        // Load recent activity
+        function loadRecentActivity() {
+            const activityLog = JSON.parse(localStorage.getItem('adminActivityLog') || '[]');
+            const container = document.getElementById('recentActivityList');
+            
+            container.innerHTML = activityLog.slice(0, 5).map(log => `
+                <div class="activity-item">
+                    <div class="activity-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="activity-details">
+                        <div class="activity-action">${log.action}</div>
+                        <div class="activity-time">${new Date(log.timestamp).toLocaleString()}</div>
+                    </div>
+                </div>
+            `).join('');
+            
+            // Full activity log
+            const fullLogContainer = document.getElementById('fullActivityLog');
+            if (fullLogContainer) {
+                fullLogContainer.innerHTML = activityLog.map(log => `
+                    <div class="activity-item">
+                        <div class="activity-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="activity-details">
+                            <div class="activity-action">${log.action}</div>
+                            <div class="activity-time">${new Date(log.timestamp).toLocaleString()} - ${log.details}</div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Load teams table
+        function loadTeamsTable() {
+            const tbody = document.getElementById('teamsTableBody');
+            tbody.innerHTML = teamsData.map(team => `
+                <tr>
+                    <td>${team.id}</td>
+                    <td>${team.name}</td>
+                    <td>${team.city}</td>
+                    <td>${team.stadium}</td>
+                    <td>
+                        <button class="btn-edit" onclick="editTeam(${team.id})"><i class="fas fa-edit"></i></button>
+                        <button class="btn-delete" onclick="deleteTeam(${team.id})"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Load players table
+        function loadPlayersTable() {
+            const tbody = document.getElementById('playersTableBody');
+            tbody.innerHTML = playersData.map(player => {
+                const team = teamsData.find(t => t.id === player.team_id);
+                return `
+                    <tr>
+                        <td>${player.id}</td>
+                        <td>${player.name}</td>
+                        <td>${team ? team.name : 'Unknown'}</td>
+                        <td>${player.position}</td>
+                        <td>${player.goals}</td>
+                        <td>
+                            <button class="btn-edit" onclick="editPlayer(${player.id})"><i class="fas fa-edit"></i></button>
+                            <button class="btn-delete" onclick="deletePlayer(${player.id})"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Load matches table
+        function loadMatchesTable() {
+            const tbody = document.getElementById('matchesTableBody');
+            tbody.innerHTML = matchesData.map(match => {
+                const homeTeam = teamsData.find(t => t.id === match.home_team_id);
+                const awayTeam = teamsData.find(t => t.id === match.away_team_id);
+                return `
+                    <tr>
+                        <td>${match.id}</td>
+                        <td>${homeTeam ? homeTeam.name : 'Unknown'}</td>
+                        <td>${awayTeam ? awayTeam.name : 'Unknown'}</td>
+                        <td>${match.home_score} - ${match.away_score}</td>
+                        <td>${match.date}</td>
+                        <td>
+                            <button class="btn-edit" onclick="editMatch(${match.id})"><i class="fas fa-edit"></i></button>
+                            <button class="btn-delete" onclick="deleteMatch(${match.id})"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        // Load users table
+        function loadUsersTable() {
+            const tbody = document.getElementById('usersTableBody');
+            tbody.innerHTML = adminUsers.map(user => `
+                <tr>
+                    <td>${user.username}</td>
+                    <td>${user.role}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>
+                        <button class="btn-edit" onclick="editUser('${user.username}')"><i class="fas fa-edit"></i></button>
+                        <button class="btn-delete" onclick="deleteUser('${user.username}')"><i class="fas fa-trash"></i></button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        // Team CRUD
+        function openTeamModal(team = null) {
+            const modal = document.getElementById('teamModal');
+            const title = document.getElementById('teamModalTitle');
+            
+            if (team) {
+                title.textContent = 'Edit Team';
+                document.getElementById('teamId').value = team.id;
+                document.getElementById('teamName').value = team.name;
+                document.getElementById('teamCity').value = team.city;
+                document.getElementById('teamStadium').value = team.stadium;
+                document.getElementById('teamFounded').value = team.founded;
+                document.getElementById('teamCoach').value = team.coach;
+                document.getElementById('teamLeague').value = team.league;
+            } else {
+                title.textContent = 'Add Team';
+                document.getElementById('teamForm').reset();
+                document.getElementById('teamId').value = '';
+            }
+            
+            modal.style.display = 'flex';
+        }
+
+        function closeTeamModal() {
+            document.getElementById('teamModal').style.display = 'none';
+        }
+
+        document.getElementById('teamForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const team = {
+                id: document.getElementById('teamId').value ? parseInt(document.getElementById('teamId').value) : Date.now(),
+                name: document.getElementById('teamName').value,
+                city: document.getElementById('teamCity').value,
+                stadium: document.getElementById('teamStadium').value,
+                founded: parseInt(document.getElementById('teamFounded').value) || null,
+                coach: document.getElementById('teamCoach').value,
+                league: document.getElementById('teamLeague').value
+            };
+            
+            const existingIndex = teamsData.findIndex(t => t.id === team.id);
+            if (existingIndex >= 0) {
+                teamsData[existingIndex] = team;
+                showToast('Team updated successfully!');
+            } else {
+                teamsData.push(team);
+                showToast('Team added successfully!');
+            }
+            
+            loadTeamsTable();
+            loadDashboardStats();
+            closeTeamModal();
+        });
+
+        function editTeam(id) {
+            const team = teamsData.find(t => t.id === id);
+            if (team) openTeamModal(team);
+        }
+
+        function deleteTeam(id) {
+            if (confirm('Are you sure you want to delete this team?')) {
+                teamsData = teamsData.filter(t => t.id !== id);
+                playersData = playersData.filter(p => p.team_id !== id);
+                matchesData = matchesData.filter(m => m.home_team_id !== id && m.away_team_id !== id);
+                loadTeamsTable();
+                loadPlayersTable();
+                loadMatchesTable();
+                loadDashboardStats();
+                showToast('Team deleted successfully!');
+            }
+        }
+
+        // Player CRUD
+        function openPlayerModal(player = null) {
+            // Simplified for demo
+            alert('Player modal would open here. Implement similar to team modal.');
+        }
+
+        function editPlayer(id) {
+            const player = playersData.find(p => p.id === id);
+            if (player) openPlayerModal(player);
+        }
+
+        function deletePlayer(id) {
+            if (confirm('Are you sure?')) {
+                playersData = playersData.filter(p => p.id !== id);
+                loadPlayersTable();
+                loadDashboardStats();
+                showToast('Player deleted!');
+            }
+        }
+
+        // Match CRUD
+        function openMatchModal(match = null) {
+            alert('Match modal would open here.');
+        }
+
+        function editMatch(id) {
+            const match = matchesData.find(m => m.id === id);
+            if (match) openMatchModal(match);
+        }
+
+        function deleteMatch(id) {
+            if (confirm('Are you sure?')) {
+                matchesData = matchesData.filter(m => m.id !== id);
+                loadMatchesTable();
+                loadDashboardStats();
+                showToast('Match deleted!');
+            }
+        }
+
+        // User management
+        function openUserModal(user = null) {
+            alert('User management modal would open here.');
+        }
+
+        function editUser(username) {
+            const user = adminUsers.find(u => u.username === username);
+            if (user) openUserModal(user);
+        }
+
+        function deleteUser(username) {
+            if (username === 'admin') {
+                alert('Cannot delete the main admin user!');
+                return;
+            }
+            if (confirm('Are you sure?')) {
+                adminUsers = adminUsers.filter(u => u.username !== username);
+                loadUsersTable();
+                loadDashboardStats();
+                showToast('User deleted!');
+            }
+        }
+
+        // Settings
+        function saveSettings() {
+            const siteTitle = document.getElementById('siteTitle').value;
+            const siteDescription = document.getElementById('siteDescription').value;
+            localStorage.setItem('siteTitle', siteTitle);
+            localStorage.setItem('siteDescription', siteDescription);
+            showToast('Settings saved successfully!');
+        }
+
+        // Toast notification
+        function showToast(message) {
+            // Simple alert for demo
+            console.log(message);
+            alert(message);
+        }
+
+        // Navigation
+        function setupNavigation() {
+            document.querySelectorAll('.menu-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const section = item.dataset.section;
+                    
+                    document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+                    item.classList.add('active');
+                    
+                    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+                    document.getElementById(`${section}Section`).classList.add('active');
+                    
+                    // Refresh data when switching sections
+                    if (section === 'teams') loadTeamsTable();
+                    if (section === 'players') loadPlayersTable();
+                    if (section === 'matches') loadMatchesTable();
+                    if (section === 'users') loadUsersTable();
+                    if (section === 'activity') loadRecentActivity();
+                });
+            });
+        }
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', () => {
+            localStorage.removeItem('adminToken');
+            localStorage.removeItem('adminUser');
+            window.location.href = 'admin-login.html';
+        });
+
+        // Initialize
+        function init() {
+            loadDashboardStats();
+            loadTeamsTable();
+            loadPlayersTable();
+            loadMatchesTable();
+            loadUsersTable();
+            setupNavigation();
+        }
+
+        init();
+    </script>
 </body>
 </html>

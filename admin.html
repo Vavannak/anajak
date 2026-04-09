@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - FootballHub</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <nav class="navbar admin-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-futbol"></i>
+                <span>FootballHub Admin</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html">View Site</a>
+                <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="admin-container">
+        <aside class="admin-sidebar">
+            <div class="admin-profile">
+                <i class="fas fa-user-circle"></i>
+                <h4>Administrator</h4>
+                <p>Super Admin</p>
+            </div>
+            
+            <nav class="admin-menu">
+                <a href="#" class="menu-item active" data-section="dashboard">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span data-i18n="admin.dashboard">Dashboard</span>
+                </a>
+                <a href="#" class="menu-item" data-section="teams">
+                    <i class="fas fa-users"></i>
+                    <span data-i18n="admin.manageTeams">Manage Teams</span>
+                </a>
+                <a href="#" class="menu-item" data-section="players">
+                    <i class="fas fa-user-friends"></i>
+                    <span data-i18n="admin.managePlayers">Manage Players</span>
+                </a>
+                <a href="#" class="menu-item" data-section="matches">
+                    <i class="fas fa-calendar-alt"></i>
+                    <span data-i18n="admin.manageMatches">Manage Matches</span>
+                </a>
+            </nav>
+        </aside>
+        
+        <main class="admin-content">
+            <!-- Dashboard Section -->
+            <div id="dashboardSection" class="admin-section active">
+                <div class="section-header">
+                    <h1 data-i18n="admin.dashboard">Dashboard</h1>
+                </div>
+                
+                <div class="stats-grid" id="adminStats">
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-users"></i></div>
+                        <div class="stat-info">
+                            <h3 id="totalTeams">0</h3>
+                            <p data-i18n="admin.totalTeams">Total Teams</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-user-friends"></i></div>
+                        <div class="stat-info">
+                            <h3 id="totalPlayers">0</h3>
+                            <p data-i18n="admin.totalPlayers">Total Players</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
+                        <div class="stat-info">
+                            <h3 id="totalMatches">0</h3>
+                            <p data-i18n="admin.totalMatches">Total Matches</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="chart-container">
+                    <canvas id="activityChart"></canvas>
+                </div>
+                
+                <div class="recent-activity">
+                    <h3 data-i18n="admin.recentActivity">Recent Activity</h3>
+                    <div id="activityLog"></div>
+                </div>
+            </div>
+            
+            <!-- Teams Management Section -->
+            <div id="teamsSection" class="admin-section">
+                <div class="section-header">
+                    <h1 data-i18n="admin.manageTeams">Manage Teams</h1>
+                    <button class="btn-add" onclick="openTeamModal()">
+                        <i class="fas fa-plus"></i> <span data-i18n="admin.addTeam">Add Team</span>
+                    </button>
+                </div>
+                
+                <div class="data-table-container">
+                    <table class="data-table" id="teamsTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>City</th>
+                                <th>Stadium</th>
+                                <th>Founded</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="teamsTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Players Management Section -->
+            <div id="playersSection" class="admin-section">
+                <div class="section-header">
+                    <h1 data-i18n="admin.managePlayers">Manage Players</h1>
+                    <button class="btn-add" onclick="openPlayerModal()">
+                        <i class="fas fa-plus"></i> <span data-i18n="admin.addPlayer">Add Player</span>
+                    </button>
+                </div>
+                
+                <div class="data-table-container">
+                    <table class="data-table" id="playersTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Team</th>
+                                <th>Position</th>
+                                <th>Goals</th>
+                                <th>Assists</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="playersTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <!-- Matches Management Section -->
+            <div id="matchesSection" class="admin-section">
+                <div class="section-header">
+                    <h1 data-i18n="admin.manageMatches">Manage Matches</h1>
+                    <button class="btn-add" onclick="openMatchModal()">
+                        <i class="fas fa-plus"></i> <span data-i18n="admin.addMatch">Add Match</span>
+                    </button>
+                </div>
+                
+                <div class="data-table-container">
+                    <table class="data-table" id="matchesTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Home Team</th>
+                                <th>Away Team</th>
+                                <th>Score</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="matchesTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+    
+    <!-- Team Modal -->
+    <div id="teamModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="teamModalTitle">Add Team</h2>
+                <span class="close">&times;</span>
+            </div>
+            <form id="teamForm">
+                <input type="hidden" id="teamId">
+                <div class="form-group">
+                    <label>Team Name</label>
+                    <input type="text" id="teamName" required>
+                </div>
+                <div class="form-group">
+                    <label>City</label>
+                    <input type="text" id="teamCity" required>
+                </div>
+                <div class="form-group">
+                    <label>Stadium</label>
+                    <input type="text" id="teamStadium" required>
+                </div>
+                <div class="form-group">
+                    <label>Founded Year</label>
+                    <input type="number" id="teamFounded">
+                </div>
+                <div class="form-group">
+                    <label>Coach</label>
+                    <input type="text" id="teamCoach">
+                </div>
+                <div class="form-group">
+                    <label>League</label>
+                    <select id="teamLeague">
+                        <option value="premier-league">Premier League</option>
+                        <option value="la-liga">La Liga</option>
+                        <option value="bundesliga">Bundesliga</option>
+                        <option value="serie-a">Serie A</option>
+                        <option value="ligue-1">Ligue 1</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn-save">Save</button>
+                    <button type="button" class="btn-cancel" onclick="closeTeamModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="js/i18n.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

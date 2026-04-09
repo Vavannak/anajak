@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Football Hub | Ultimate Team Info Platform</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <i class="fas fa-futbol"></i>
+                <span>FootballHub</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="active">Home</a>
+                <a href="teams.html">Teams</a>
+                <a href="#" id="matchesLink">Matches</a>
+                <a href="#" id="statsLink">Statistics</a>
+            </div>
+            <div class="menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Ultimate Football<br>Information Hub</h1>
+            <p class="hero-subtitle">Real-time team stats, player profiles, match analysis, and comprehensive football data at your fingertips</p>
+            <div class="hero-buttons">
+                <a href="teams.html" class="btn btn-primary">
+                    <i class="fas fa-search"></i> Explore Teams
+                </a>
+                <a href="#" class="btn btn-secondary" id="liveMatchesBtn">
+                    <i class="fas fa-calendar-alt"></i> Live Matches
+                </a>
+            </div>
+        </div>
+        <div class="hero-stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalTeams">0</div>
+                <div class="stat-label">Teams</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalPlayers">0</div>
+                <div class="stat-label">Players</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalMatches">0</div>
+                <div class="stat-label">Matches</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Teams -->
+    <section class="featured-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Featured Teams</h2>
+                <p>Discover top football clubs from around the world</p>
+            </div>
+            <div class="teams-grid" id="featuredTeams">
+                <!-- Teams loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Top Scorers -->
+    <section class="top-scorers-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Top Scorers</h2>
+                <p>Players with most goals this season</p>
+            </div>
+            <div class="scorers-list" id="topScorers">
+                <!-- Top scorers loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Recent Matches -->
+    <section class="matches-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Recent Matches</h2>
+                <p>Latest results from top leagues</p>
+            </div>
+            <div class="matches-grid" id="recentMatches">
+                <!-- Matches loaded dynamically -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3><i class="fas fa-futbol"></i> FootballHub</h3>
+                    <p>Your comprehensive source for football team information, player statistics, and match coverage.</p>
+                </div>
+                <div class="footer-section">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="teams.html">Teams</a></li>
+                        <li><a href="#">Matches</a></li>
+                        <li><a href="#">Statistics</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Follow Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 FootballHub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/api.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
